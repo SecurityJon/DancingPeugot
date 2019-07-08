@@ -25,14 +25,14 @@ def carData(dataArray):
 		canvalues.insert(numConvert, intValue)
 		
 		
-	#Display the Frequency coming in and it's value
-	for arrayNumber in range(0, len(canvalues)):
-            #sys.stdout.write(arrayNumber)
-            #sys.stdout.write("\t\t")
-            #sys.stdout.write("\r\n")
-	    sys.stdout.write(str(canvalues[arrayNumber]))
-            sys.stdout.write("\t\t")
-        sys.stdout.write("\r\n")
+	#Display the Frequency coming in and it's value - Debugging
+	#for arrayNumber in range(0, len(canvalues)):
+        #    #sys.stdout.write(arrayNumber)
+        #    #sys.stdout.write("\t\t")
+        #    #sys.stdout.write("\r\n")
+	#    sys.stdout.write(str(canvalues[arrayNumber]))
+        #    sys.stdout.write("\t\t")
+        #sys.stdout.write("\r\n")
 		
 
 	#########################################################
@@ -55,6 +55,7 @@ def carData(dataArray):
 	#	This is where we define which channel gets mapped to which 'thing' in the cluster
 	#########################################################
 	
+	
 	#Speedo isn't reactive so this is mapped to low tones
 	#Speedo and RPM
 	can_message(speedo_and_rpm().getID(), speedo_and_rpm().getData(canvalues[LowBass]))
@@ -75,6 +76,9 @@ def carData(dataArray):
 	
 	#Trip Recorder
         can_message(trip_recorder().getID(), trip_recorder().getData(canvalues[HighHighTones]))
+	
+	#Milage
+        can_message(milage().getID(), milage().getData(canvalues[HighHighTones]))
 	
 	
 	
@@ -401,6 +405,45 @@ class trip_recorder:
                     hightrip = value
 		
 		bytedata = [byte0, byte1, byte2, byte3, byte4, smalltrip, midtrip, hightrip]
+		return bytedata
+	
+class milage:
+	def getID(self):
+		return int('0F6', 16)
+
+	def getData(self, value):
+		
+		#LEDs are on bytes 3, 4 and 5
+		byte0 = 0x00
+		byte1 = 0x00
+		byte2 = 0x00
+		byte3 = 0x00
+		byte4 = 0x00
+		byte5 = 0x00
+		byte6 = 0x00
+		byte7 = 0x00
+		data = 0x00
+		
+		#Do our calculation to make things happen. 
+		#We have 3 separate bytes to play with here, but to make life easy we'll set all 3 the same
+		smalltrip = 0
+		midtrip = 0
+		hightrip = 0
+		
+                if (value <=85):
+		    smalltrip = value
+                    midtrip = 0
+                    hightrip = 0
+                elif (value <=160):
+		    smalltrip = value
+                    midtrip = value
+                    hightrip = 0
+                elif (value <=255):
+		    smalltrip = value
+                    midtrip = value
+                    hightrip = value
+		
+		bytedata = [byte0, byte1, smalltrip, midtrip, hightrip, byte5, byte6, byte7]
 		return bytedata
 		
 		
