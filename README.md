@@ -11,6 +11,8 @@ To install - clone this Repo and then run the installer
 cd /home/pi/lightshowpi
 sudo ./install.sh
 
+Now reboot the Pi
+
 Two files have been modified from the original LightShowPi project.
 
 1. /py/cansend.py - this is the main file where all of the CAN work is done.
