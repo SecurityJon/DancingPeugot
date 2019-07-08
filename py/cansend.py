@@ -77,8 +77,8 @@ def carData(dataArray):
 	#Trip Recorder
         can_message(trip_recorder().getID(), trip_recorder().getData(canvalues[HighHighTones]))
 	
-	#Milage
-        can_message(milage().getID(), milage().getData(canvalues[HighHighTones]))
+	#Milage - Removed for now as it breaks the display
+        #can_message(milage().getID(), milage().getData(canvalues[HighHighTones]))
 	
 	
 	
