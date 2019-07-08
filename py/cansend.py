@@ -57,11 +57,11 @@ def carData(dataArray):
 	
 	#Speedo isn't reactive so this is mapped to low tones
 	#Speedo and RPM
-	can_message(speedo_and_rpm().getID(), speedo_and_rpm().getData(canvalues[HighBass]))
+	can_message(speedo_and_rpm().getID(), speedo_and_rpm().getData(canvalues[MidBass]))
 	
 	#Engine temp isn't reactive so we map to low tones
 	#Engine Temp
-	can_message(enginetemp().getID(), enginetemp().getData(canvalues[MidBass]))	
+	can_message(enginetemp().getID(), enginetemp().getData(canvalues[LowBass]))	
 	
 	#Engine temp isn't reactive so we map to low tones
 	#Fuel Guage
