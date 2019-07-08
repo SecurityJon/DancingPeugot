@@ -73,6 +73,9 @@ def carData(dataArray):
 	#Right Side LEDS
         can_message(right_side_leds().getID(), right_side_leds().getData(canvalues[HighBass]))
 	
+	#Trip Recorder
+        can_message(trip_recorder().getID(), trip_recorder().getData(canvalues[LowMidTones]))
+	
 	
 	
 	#Brightness
@@ -359,6 +362,30 @@ class right_side_leds:
 		data = value
 		
 		bytedata = [byte0, byte1, byte2, byte3, byte4, data, byte6, byte7]
+		return bytedata
+	
+class trip_recorder:
+	def getID(self):
+		return int('1A8', 16)
+
+	def getData(self, value):
+		
+		#LEDs are on bytes 6, 7 and 8
+		byte0 = 0x00
+		byte1 = 0x00
+		byte2 = 0x00
+		byte3 = 0x00
+		byte4 = 0x00
+		byte5 = 00x00
+		byte6 = 0x00
+		byte7 = 0x00
+		data = 0x00
+		
+		#Do our calculation to make things happen. 
+		#We have 3 separate bytes to play with here, but to make life easy we'll set all 3 the same
+		data = value
+		
+		bytedata = [byte0, byte1, byte2, byte3, byte4, data, data, data]
 		return bytedata
 		
 		
