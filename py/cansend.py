@@ -15,27 +15,39 @@ result = (([max value of range in init] - [min value of range in int]) * ([input
 
 def carData(dataArray): 
 	# Time to have some fun - what to do for the car
-	# Here we have 8 channels to play with, labelled from brightness[0] to brightness[8], where the range in each channel is 0.0 to 1.0 (as it gets clipped previously)
+	# Here we have 8 channels to play with, where the range in each channel is 0.0 to 1.0 (as it gets clipped previously)
 	
-	#First create a new array for ourselves
-	#canvalues = dataArray
-	
-	""""
-	# Now convert the value into something we can use in the car, which ranges from 0 to 255
-	for numConvert in range(0, len(canvalues)):
-		#canvalues[numConvert] = int(round(float((canvalues[numConvert] * 255))))
-		intValue = int(round(float((canvalues[numConvert] * 255))))
-		canvalues[numConvert] = intValue
-		print("Channel " + str(numConvert) + ":" + str(canvalues[numConvert]) + "\t\t"),
-	"""
-	
+	#Create a new array to hold the CAN data values
 	canvalues = array('i')
 	#Now convert the value into something we can use in the car, which ranges from 0 to 255
 	for numConvert in range(0, len(dataArray)):
 		intValue = int(round(float((dataArray[numConvert] * 255))))
 		canvalues.insert(numConvert, intValue)
-		#print("Channel " + str(numConvert) + ":" + str(canvalues[numConvert]) + "\t\t"),
+		
+		
+	#Display the Frequency coming in and it's value
+	for arrayNumber in range(0, len(canvalues)):
+            #sys.stdout.write(arrayNumber)
+            #sys.stdout.write("\t\t")
+            #sys.stdout.write("\r\n")
+	    sys.stdout.write(canvalues[arrayNumber])
+            sys.stdout.write("\t\t")
+            sys.stdout.write("\r\n")
+		
 
+	#########################################################
+	#	Each channel corrisponds to a frequency, so we will label there here
+	#########################################################
+	
+	
+	
+	
+	#########################################################
+	#	This is where we define which channel gets mapped to which 'thing' in the cluster
+	#########################################################
+	
+	
+	
 	
 	#Send data for channel 0
 	#Brightness
@@ -43,19 +55,19 @@ def carData(dataArray):
 	
 	#Send data for channel 1
 	#Fuel Guage
-	can_message(fuel().getID(), fuel().getData(canvalues[0]))
+	#can_message(fuel().getID(), fuel().getData(canvalues[0]))
 	
 	#Send data for channel 2
 	#Speedo and RPM
-	can_message(speedo_and_rpm().getID(), speedo_and_rpm().getData(canvalues[0]))
+	#can_message(speedo_and_rpm().getID(), speedo_and_rpm().getData(canvalues[0]))
 	
 	#Send data for channel 3
 	#LEDs
-	can_message(display_leds().getID(), display_leds().getData(canvalues[6]))	
+	#can_message(display_leds().getID(), display_leds().getData(canvalues[6]))	
 	
 	#Send data for channel 4
 	#Engine Temp
-	can_message(enginetemp().getID(), enginetemp().getData(canvalues[1]))	
+	#can_message(enginetemp().getID(), enginetemp().getData(canvalues[1]))	
 
 
 	
