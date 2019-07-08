@@ -75,7 +75,12 @@ def carData(dataArray):
         can_message(right_side_leds().getID(), right_side_leds().getData(canvalues[HighBass]))
 	
 	#Trip Recorder
-        can_message(trip_recorder().getID(), trip_recorder().getData(canvalues[HighHighTones]))
+        can_message(trip_recorder().getID(), trip_recorder().getData(canvalues[LowHighTones]))
+	
+	#More LEDS
+        can_message(more_leds().getID(), more_leds().getData(canvalues[MidHighTones]))
+	
+	
 	
 	#Milage - Removed for now as it breaks the display
         #can_message(milage().getID(), milage().getData(canvalues[HighHighTones]))
@@ -344,7 +349,7 @@ class left_side_leds:
 		bytedata = [data, byte1, byte2, byte3, byte4, byte5, byte6, byte7]
 		return bytedata
 	
-class right_side_leds:
+class more_leds:
 	def getID(self):
 		return int('128', 16)
 
@@ -366,6 +371,30 @@ class right_side_leds:
 		data = value
 		
 		bytedata = [byte0, byte1, byte2, byte3, byte4, byte5, byte6, data]
+		return bytedata
+	
+class right_side_leds:
+	def getID(self):
+		return int('168', 16)
+
+	def getData(self, value):
+		
+		#LEDs are on byte 5
+		byte0 = 0x00
+		byte1 = 0x00
+		byte2 = 0x00
+		byte3 = 0x00
+		byte4 = 0x00
+		byte5 = 0x00
+		byte6 = 0x00
+		byte7 = 0x00
+		data = 0x00
+		
+		#Do our calculation to make things happen. We will use the full range for ease of use
+		#The range here is 00 to FF
+		data = value
+		
+		bytedata = [byte0, byte1, byte2, byte3, byte4, data, byte6, byte7]
 		return bytedata
 	
 class trip_recorder:
