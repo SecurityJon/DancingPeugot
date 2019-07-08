@@ -376,7 +376,7 @@ class trip_recorder:
 		byte2 = 0x00
 		byte3 = 0x00
 		byte4 = 0x00
-		byte5 = 00x00
+		byte5 = 0x00
 		byte6 = 0x00
 		byte7 = 0x00
 		data = 0x00
