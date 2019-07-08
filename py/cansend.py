@@ -75,10 +75,10 @@ def carData(dataArray):
         can_message(right_side_leds().getID(), right_side_leds().getData(canvalues[HighBass]))
 	
 	#Trip Recorder
-        can_message(trip_recorder().getID(), trip_recorder().getData(canvalues[LowHighTones]))
+        can_message(trip_recorder().getID(), trip_recorder().getData(canvalues[HighMidTones]))
 	
 	#More LEDS
-        can_message(more_leds().getID(), more_leds().getData(canvalues[MidHighTones]))
+        can_message(more_leds().getID(), more_leds().getData(canvalues[LowHighTones]))
 	
 	
 	
