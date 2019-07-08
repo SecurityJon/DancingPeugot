@@ -55,23 +55,29 @@ def carData(dataArray):
 	#	This is where we define which channel gets mapped to which 'thing' in the cluster
 	#########################################################
 	
-	#Speedo isn't reactive so this is mapped to mid tones
+	#Speedo isn't reactive so this is mapped to low tones
 	#Speedo and RPM
-	can_message(speedo_and_rpm().getID(), speedo_and_rpm().getData(canvalues[LowBass]))
+	can_message(speedo_and_rpm().getID(), speedo_and_rpm().getData(canvalues[HighBass]))
+	
+	#Engine temp isn't reactive so we map to low tones
+	#Engine Temp
+	can_message(enginetemp().getID(), enginetemp().getData(canvalues[MidBass]))	
+	
+	#Engine temp isn't reactive so we map to low tones
+	#Fuel Guage
+	can_message(fuel().getID(), fuel().getData(canvalues[LowBass]))
 	
 	#Brightness
 	#can_message(brightness().getID(), brightness().getData(canvalues[0]))
 	
-	#Fuel Guage
-	#can_message(fuel().getID(), fuel().getData(canvalues[0]))
+
 	
 
 	
 	#LEDs
 	#can_message(display_leds().getID(), display_leds().getData(canvalues[6]))	
 	
-	#Engine Temp
-	#can_message(enginetemp().getID(), enginetemp().getData(canvalues[1]))	
+
 
 
 	
