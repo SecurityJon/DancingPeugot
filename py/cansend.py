@@ -57,7 +57,7 @@ def carData(dataArray):
 	
 	#Speedo isn't reactive so this is mapped to low tones
 	#Speedo and RPM
-	can_message(speedo_and_rpm().getID(), speedo_and_rpm().getData(canvalues[MidBass]))
+	can_message(speedo_and_rpm().getID(), speedo_and_rpm().getData(canvalues[LowBass]))
 	
 	#Engine temp isn't reactive so we map to low tones
 	#Engine Temp
@@ -68,14 +68,11 @@ def carData(dataArray):
 	can_message(fuel().getID(), fuel().getData(canvalues[LowBass]))
 	
 	#Brightness
-	#can_message(brightness().getID(), brightness().getData(canvalues[0]))
-	
-
-	
+	#can_message(brightness().getID(), brightness().getData(canvalues[MidBass]))
 
 	
 	#LEDs
-	#can_message(display_leds().getID(), display_leds().getData(canvalues[6]))	
+	can_message(display_leds().getID(), display_leds().getData(canvalues[MidBass]))	
 	
 
 
