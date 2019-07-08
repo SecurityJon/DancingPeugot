@@ -74,7 +74,7 @@ def carData(dataArray):
         can_message(right_side_leds().getID(), right_side_leds().getData(canvalues[HighBass]))
 	
 	#Trip Recorder
-        can_message(trip_recorder().getID(), trip_recorder().getData(canvalues[LowMidTones]))
+        can_message(trip_recorder().getID(), trip_recorder().getData(canvalues[HighHighTones]))
 	
 	
 	
@@ -342,17 +342,17 @@ class left_side_leds:
 	
 class right_side_leds:
 	def getID(self):
-		return int('168', 16)
+		return int('128', 16)
 
 	def getData(self, value):
 		
-		#LEDs are on byte 5
+		#LEDs are on byte 8
 		byte0 = 0x00
 		byte1 = 0x00
 		byte2 = 0x00
 		byte3 = 0x00
 		byte4 = 0x00
-		byte5 = 00
+		byte5 = 0x00
 		byte6 = 0x00
 		byte7 = 0x00
 		data = 0x00
@@ -361,7 +361,7 @@ class right_side_leds:
 		#The range here is 00 to FF
 		data = value
 		
-		bytedata = [byte0, byte1, byte2, byte3, byte4, data, byte6, byte7]
+		bytedata = [byte0, byte1, byte2, byte3, byte4, byte5, byte6, data]
 		return bytedata
 	
 class trip_recorder:
@@ -383,9 +383,24 @@ class trip_recorder:
 		
 		#Do our calculation to make things happen. 
 		#We have 3 separate bytes to play with here, but to make life easy we'll set all 3 the same
-		data = value
+		smalltrip = 0
+		midtrip = 0
+		hightrip = 0
 		
-		bytedata = [byte0, byte1, byte2, byte3, byte4, data, data, data]
+                if (value <=85):
+		    smalltrip = value
+                    midtrip = 0
+                    hightrip = 0
+                elif (value <=160):
+		    smalltrip = value
+                    midtrip = value
+                    hightrip = 0
+                elif (value <=255):
+		    smalltrip = value
+                    midtrip = value
+                    hightrip = value
+		
+		bytedata = [byte0, byte1, byte2, byte3, byte4, smalltrip, midtrip, hightrip]
 		return bytedata
 		
 		
