@@ -37,35 +37,39 @@ def carData(dataArray):
 
 	#########################################################
 	#	Each channel corrisponds to a frequency, so we will label there here
+	#
+	#	Bass tones tend to sit somewhere between the three bass levels
+	#	Vocals tend to sit somewhere in the mid tones
+	#	High Tones tend to be high vocals or symbols
 	#########################################################
-	
-	
-	
+	LowBass = 0
+	MidBass = 1
+	HighBass = 2
+	LowMidTones = 3
+	MidMidTones = 4
+	HighMidTones = 5
+	LowHighTones = 6
+	HighHighTones = 7	
 	
 	#########################################################
 	#	This is where we define which channel gets mapped to which 'thing' in the cluster
 	#########################################################
 	
+	#Speedo isn't reactive so this is mapped to mid tones
+	#Speedo and RPM
+	can_message(speedo_and_rpm().getID(), speedo_and_rpm().getData(canvalues[MidMidTones]))
 	
-	
-	
-	#Send data for channel 0
 	#Brightness
 	#can_message(brightness().getID(), brightness().getData(canvalues[0]))
 	
-	#Send data for channel 1
 	#Fuel Guage
 	#can_message(fuel().getID(), fuel().getData(canvalues[0]))
 	
-	#Send data for channel 2
-	#Speedo and RPM
-	#can_message(speedo_and_rpm().getID(), speedo_and_rpm().getData(canvalues[0]))
+
 	
-	#Send data for channel 3
 	#LEDs
 	#can_message(display_leds().getID(), display_leds().getData(canvalues[6]))	
 	
-	#Send data for channel 4
 	#Engine Temp
 	#can_message(enginetemp().getID(), enginetemp().getData(canvalues[1]))	
 
