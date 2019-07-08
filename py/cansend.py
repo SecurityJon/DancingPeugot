@@ -57,7 +57,7 @@ def carData(dataArray):
 	
 	#Speedo isn't reactive so this is mapped to mid tones
 	#Speedo and RPM
-	can_message(speedo_and_rpm().getID(), speedo_and_rpm().getData(canvalues[MidMidTones]))
+	can_message(speedo_and_rpm().getID(), speedo_and_rpm().getData(canvalues[LowBass]))
 	
 	#Brightness
 	#can_message(brightness().getID(), brightness().getData(canvalues[0]))
