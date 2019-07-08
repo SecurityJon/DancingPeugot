@@ -30,7 +30,7 @@ def carData(dataArray):
             #sys.stdout.write(arrayNumber)
             #sys.stdout.write("\t\t")
             #sys.stdout.write("\r\n")
-	    sys.stdout.write(canvalues[arrayNumber])
+	    sys.stdout.write(str(canvalues[arrayNumber]))
             sys.stdout.write("\t\t")
             sys.stdout.write("\r\n")
 		
