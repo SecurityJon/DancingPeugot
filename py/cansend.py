@@ -56,13 +56,13 @@ def carData(dataArray):
 	#########################################################
 	
 	
-	#Speedo isn't reactive so this is mapped to low tones
+	#Speedo and RPM aren't reactive but need to be mapped to separate channels so they look different
 	#Speedo and RPM
-	can_message(speedo_and_rpm().getID(), speedo_and_rpm().getData(canvalues[LowBass]))
+	can_message(speedo_and_rpm().getID(), speedo_and_rpm().getData(canvalues[LowBass], canvalues[MidMidTones]))
 	
 	#Engine temp isn't reactive so we map to low tones
 	#Engine Temp
-	can_message(enginetemp().getID(), enginetemp().getData(canvalues[LowBass]))	
+	can_message(enginetemp().getID(), enginetemp().getData(canvalues[LowBass]))
 	
 	#Engine temp isn't reactive so we map to low tones
 	#Fuel Guage
@@ -72,13 +72,13 @@ def carData(dataArray):
 	can_message(left_side_leds().getID(), left_side_leds().getData(canvalues[MidBass]))
 	
 	#Right Side LEDS
-        can_message(right_side_leds().getID(), right_side_leds().getData(canvalues[HighBass]))
+	can_message(right_side_leds().getID(), right_side_leds().getData(canvalues[HighBass]))
 	
 	#Trip Recorder
-        can_message(trip_recorder().getID(), trip_recorder().getData(canvalues[HighMidTones]))
+	can_message(trip_recorder().getID(), trip_recorder().getData(canvalues[HighMidTones]))
 	
 	#More LEDS
-        can_message(more_leds().getID(), more_leds().getData(canvalues[LowHighTones]))
+	can_message(more_leds().getID(), more_leds().getData(canvalues[LowHighTones]))
 	
 	
 	
@@ -233,7 +233,7 @@ class speedo_and_rpm:
 	def getID(self):
 		return int('0B6', 16)
 
-	def getData(self, value):
+	def getData(self, speedovalue, rpmvalue):
 		byte0 = 0x00
 		byte1 = 0x00
 		byte2 = 0x00
@@ -266,7 +266,99 @@ Byte 1 - Controls RPM
 	a1 - Just over 5K rpm
 	b0 - Just over 5.5k rpm
 	cc - 6.5k
-	dd (or around) - 7k
+	dd (or around) - 7k    
+	"""    
+    
+		if (rpmvalue <=36):
+			rpm = 0x00				
+		elif (rpmvalue <=54):
+			rpm = 0x08
+		elif (rpmvalue <=72):
+			rpm = 0x10
+		elif (rpmvalue <=90):
+			rpm = 0x32
+		elif (rpmvalue <=108):
+			rpm = 0x64
+		elif (rpmvalue <=126):
+			rpm = 0x96
+		elif (rpmvalue <=144):
+			rpm = 0xa1
+		elif (rpmvalue <=162):
+			rpm = 0xb0
+		elif (rpmvalue <=180):
+			rpm = 0xc1
+		elif (rpmvalue <=196):
+			rpm = 0xcc
+		elif (rpmvalue <=255):
+			rpm = 0xdd
+   
+		""""	
+Byte 3 - Contols speedo
+
+	This is actually pretty stupid. The speedo doesn't go up in consistant units, sometimes it's in 2s, sometimes it's in 1s. So you can't always get an exact speed
+
+	00 - 0mph
+	05 - 9mph
+	12 - 31mph
+	18 - 40mph
+	1e - 50mph
+	25 - 61pmh	
+	2b - 70mph
+	31 - 80mph
+	38 - 91mph
+	4a - 120 mph
+	62 - 158 mph (max)
+	"""
+		
+		if (speedovalue <=36):
+			speedo = 0x00
+		elif (speedovalue <=54):
+			speedo = 0x05
+		elif (speedovalue <=72):
+			speedo = 0x12
+		elif (speedovalue <=90):
+			speedo = 0x18
+		elif (speedovalue <=108):
+			speedo = 0x1e
+		elif (speedovalue <=126):
+			speedo = 0x25		
+		elif (speedovalue <=144):
+			speedo = 0x2b
+		elif (speedovalue <=162):
+			speedo = 0x31
+		elif (speedovalue <=180):
+			speedo = 0x38
+		elif (speedovalue <=196):
+			speedo = 0x4a
+		elif (speedovalue <=255):
+			speedo = 0x62
+
+		
+		#data = '0x' + data
+		bytedata = [rpm, byte1, speedo, byte3, byte4, byte5, byte6, byte7]
+		return bytedata
+
+class speedo:
+	def getID(self):
+		return int('0B6', 16)
+
+	def getData(self, value):
+		byte0 = 0x00
+		byte1 = 0x00
+		byte2 = 0x00
+		byte3 = 0x00
+		byte4 = 0x00
+		byte5 = 0x00
+		byte6 = 0x00
+		byte7 = 0x00
+		speedo = 00
+		
+		""""	
+##############################
+	ID 0B6
+##############################
+
+This seems to control speedo and RPM
 
 Byte 3 - Contols speedo
 
@@ -286,44 +378,95 @@ Byte 3 - Contols speedo
 	"""
 		
 		if (value <=36):
-			rpm = 0x00				
 			speedo = 0x00
 		elif (value <=54):
-			rpm = 0x08
 			speedo = 0x05
 		elif (value <=72):
-			rpm = 0x10
 			speedo = 0x12
 		elif (value <=90):
-			rpm = 0x32
 			speedo = 0x18
 		elif (value <=108):
-			rpm = 0x64
 			speedo = 0x1e
 		elif (value <=126):
-			rpm = 0x96
 			speedo = 0x25		
 		elif (value <=144):
-			rpm = 0xa1
 			speedo = 0x2b
 		elif (value <=162):
-			rpm = 0xb0
 			speedo = 0x31
 		elif (value <=180):
-			rpm = 0xc1
 			speedo = 0x38
 		elif (value <=196):
-			rpm = 0xcc
 			speedo = 0x4a
 		elif (value <=255):
-			rpm = 0xdd
 			speedo = 0x62
 
-		
-		#data = '0x' + data
-		bytedata = [rpm, byte1, speedo, byte3, byte4, byte5, byte6, byte7]
+		bytedata = [byte0, byte1, speedo, byte3, byte4, byte5, byte6, byte7]
 		return bytedata
 
+class rpm:
+	def getID(self):
+		return int('0B6', 16)
+
+	def getData(self, value):
+		byte0 = 0x00
+		byte1 = 0x00
+		byte2 = 0x00
+		byte3 = 0x00
+		byte4 = 0x00
+		byte5 = 0x00
+		byte6 = 0x00
+		byte7 = 0x00
+		rpm = 00
+		
+		""""	
+##############################
+	ID 0B6
+##############################
+
+This seems to control speedo and RPM
+
+
+Byte 1 - Controls RPM
+
+	NEEDS MORE MAPPING OUT
+
+	00 - 0rpm
+	08 - 250 rpm
+	10 - 500 rpm
+	32 - 1.5k rpm
+	64 - 3.25rpm
+	96 - 4.75rpm
+	a1 - Just over 5K rpm
+	b0 - Just over 5.5k rpm
+	cc - 6.5k
+	dd (or around) - 7k
+	"""
+		
+		if (value <=36):
+			rpm = 0x00				
+		elif (value <=54):
+			rpm = 0x08
+		elif (value <=72):
+			rpm = 0x10
+		elif (value <=90):
+			rpm = 0x32
+		elif (value <=108):
+			rpm = 0x64
+		elif (value <=126):
+			rpm = 0x96
+		elif (value <=144):
+			rpm = 0xa1
+		elif (value <=162):
+			rpm = 0xb0
+		elif (value <=180):
+			rpm = 0xc1
+		elif (value <=196):
+			rpm = 0xcc
+		elif (value <=255):
+			rpm = 0xdd		
+
+		bytedata = [rpm, byte1, byte2, byte3, byte4, byte5, byte6, byte7]
+		return bytedata
 			
 class left_side_leds:
 	def getID(self):
